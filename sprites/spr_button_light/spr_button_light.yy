@@ -26,7 +26,7 @@
   "origin":0,
   "parent":{
     "name":"Turn Based Battle",
-    "path":"folders/Sprites/Turn Based Battle.yy",
+    "path":"folders/RPGGAMEMAKER/Turn Based Battle.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",
