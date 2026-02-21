@@ -91,8 +91,11 @@
   "name":"RPG",
   "resources":[
     {"id":{"name":"ReadMe","path":"notes/ReadMe/ReadMe.yy",},},
-    {"id":{"name":"Object1","path":"objects/Object1/Object1.yy",},},
+    {"id":{"name":"obj_cam","path":"objects/obj_cam/obj_cam.yy",},},
+    {"id":{"name":"obj_minimapa","path":"objects/obj_minimapa/obj_minimapa.yy",},},
+    {"id":{"name":"obj_player_1","path":"objects/obj_player_1/obj_player_1.yy",},},
     {"id":{"name":"Object2","path":"objects/Object2/Object2.yy",},},
+    {"id":{"name":"Room1_Child_0","path":"rooms/Room1_Child_0/Room1_Child_0.yy",},},
     {"id":{"name":"Room1","path":"rooms/Room1/Room1.yy",},},
     {"id":{"name":"Room2","path":"rooms/Room2/Room2.yy",},},
     {"id":{"name":"Spr_Aguabackground","path":"sprites/Spr_Aguabackground/Spr_Aguabackground.yy",},},
@@ -121,6 +124,7 @@
     {"id":{"name":"Spr_Gramaseca","path":"sprites/Spr_Gramaseca/Spr_Gramaseca.yy",},},
     {"id":{"name":"Spr_Gramaumida","path":"sprites/Spr_Gramaumida/Spr_Gramaumida.yy",},},
     {"id":{"name":"spr_lava","path":"sprites/spr_lava/spr_lava.yy",},},
+    {"id":{"name":"spr_minimapa_borda","path":"sprites/spr_minimapa_borda/spr_minimapa_borda.yy",},},
     {"id":{"name":"spr_npc1","path":"sprites/spr_npc1/spr_npc1.yy",},},
     {"id":{"name":"Spr_nuvem1","path":"sprites/Spr_nuvem1/Spr_nuvem1.yy",},},
     {"id":{"name":"Spr_nuvem2","path":"sprites/Spr_nuvem2/Spr_nuvem2.yy",},},
@@ -150,8 +154,6 @@
     {"id":{"name":"spr_slash","path":"sprites/spr_slash/spr_slash.yy",},},
     {"id":{"name":"Spr_Sombra","path":"sprites/Spr_Sombra/Spr_Sombra.yy",},},
     {"id":{"name":"spr_talk","path":"sprites/spr_talk/spr_talk.yy",},},
-    {"id":{"name":"Spr_Waterfoam","path":"sprites/Spr_Waterfoam/Spr_Waterfoam.yy",},},
-    {"id":{"name":"TileSet8","path":"tilesets/TileSet8/TileSet8.yy",},},
     {"id":{"name":"Ts_arbusto1","path":"tilesets/Ts_arbusto1/Ts_arbusto1.yy",},},
     {"id":{"name":"Ts_arbusto2","path":"tilesets/Ts_arbusto2/Ts_arbusto2.yy",},},
     {"id":{"name":"Ts_Terreno1","path":"tilesets/Ts_Terreno1/Ts_Terreno1.yy",},},
@@ -165,6 +167,7 @@
   "RoomOrderNodes":[
     {"roomId":{"name":"Room1","path":"rooms/Room1/Room1.yy",},},
     {"roomId":{"name":"Room2","path":"rooms/Room2/Room2.yy",},},
+    {"roomId":{"name":"Room1_Child_0","path":"rooms/Room1_Child_0/Room1_Child_0.yy",},},
   ],
   "templateType":"game",
   "TextureGroups":[
