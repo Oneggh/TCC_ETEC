@@ -43,7 +43,7 @@ for (var i = 0; i < array_length(tilemap_ids); i++)
         break;
     }
 }
-if (ref_tilemap == noone) exit; // não há tilemap válido
+if (ref_tilemap == noone) exit;
 
 var tmx = tilemap_get_x(ref_tilemap);
 var tmy = tilemap_get_y(ref_tilemap);
@@ -65,9 +65,20 @@ if (sprite_exists(minimap_sprite))
         final_scale, final_scale, 0, c_white, 1);
 }
 
-// Desenha o jogador no centro
-draw_set_color(c_white);
-draw_circle(cx, cy, 3, false);
+// Desenha o jogador no centro (CABEÇA ANIMADA)
+if (p != noone)
+{
+    // Tamanho que a cabeça vai aparecer no minimapa (ajuste)
+    var head_size = 10;  // 8-12 pixels geralmente fica bom
+    
+    // Desenha a cabeça no centro do minimapa usando o sprite spr_ggh_head
+    draw_sprite_ext(spr_ggh_head, p.image_index,
+                    mini_x + cx,  // Centro X do minimapa
+                    mini_y + cy,  // Centro Y do minimapa
+                    head_size / 16,  // Escala X (32 é o tamanho original)
+                    head_size / 16,  // Escala Y
+                    0, c_white, 1);
+}
 
 // Aplica a máscara circular
 gpu_set_blendmode_ext(bm_zero, bm_src_alpha);
@@ -82,11 +93,6 @@ draw_surface(mini_surface, mini_x, mini_y);
 // Desenha a borda circular
 draw_set_color(c_white);
 draw_circle(mini_x + cx, mini_y + cy, cx, true);
-
-
-
-// Desenha o minimapa primeiro
-draw_surface(mini_surface, mini_x, mini_y);
 
 // Desenha a borda por cima (com blend mode para transparência)
 gpu_set_blendmode(bm_normal);

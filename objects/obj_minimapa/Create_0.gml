@@ -19,7 +19,7 @@ fullmap_created = false;
 mini_mask = -1;
 mask_size = 0;
 
-// Lista de nomes dos tilemaps (CORRIGIDA!)
+// Lista de nomes dos tilemaps
 tilemap_names = [
     "Terreno1",
     "Terreno2",
