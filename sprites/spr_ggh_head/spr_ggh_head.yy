@@ -55,8 +55,8 @@
   },
   "origin":4,
   "parent":{
-    "name":"RPG",
-    "path":"RPG.yyp",
+    "name":"Spr_gghzaero",
+    "path":"folders/Sprites/Spr_gghzaero.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

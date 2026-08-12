@@ -1,5 +1,5 @@
 mini_size = 256;
-mini_x = 20;
+mini_x = 1075;
 mini_y = 20;
 
 tile_size = 16;

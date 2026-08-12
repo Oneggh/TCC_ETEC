@@ -11,8 +11,8 @@
   "name":"obj_minimapa",
   "overriddenProperties":[],
   "parent":{
-    "name":"RPG",
-    "path":"RPG.yyp",
+    "name":"Obj_utilidades",
+    "path":"folders/Obj_utilidades.yy",
   },
   "parentObjectId":null,
   "persistent":false,

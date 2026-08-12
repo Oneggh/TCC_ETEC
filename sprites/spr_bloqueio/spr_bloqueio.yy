@@ -25,8 +25,8 @@
   "nineSlice":null,
   "origin":0,
   "parent":{
-    "name":"RPG",
-    "path":"RPG.yyp",
+    "name":"Sprites Utilidades",
+    "path":"folders/Sprites Utilidades.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

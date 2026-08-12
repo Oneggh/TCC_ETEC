@@ -22,11 +22,11 @@ if (!surface_exists(mini_mask) || mask_size != mini_size)
     surface_reset_target();
 }
 
-// Desenha na surface do minimapa
+// --- DESENHA NA SURFACE DO MINIMAPA ---
 surface_set_target(mini_surface);
 draw_clear_alpha(c_black, 0);
 
-var cx = mini_size * 0.5;
+var cx = mini_size * 0.5;  // Centro da surface (128)
 var cy = mini_size * 0.5;
 
 // Calcula a escala base (sem zoom) e aplica o zoom
@@ -54,9 +54,9 @@ var player_map_y = p.y - tmy;
 
 // Desenha o fundo circular
 draw_set_color(make_color_rgb(20,20,20));
-draw_circle(cx, cy, mini_size * 0.5, false);
+draw_circle(cx, cy, mini_size * 5, false);
 
-// Desenha o SPRITE do mapa completo (mais estável que surface)
+// Desenha o SPRITE do mapa completo
 if (sprite_exists(minimap_sprite))
 {
     draw_sprite_ext(minimap_sprite, 0, 
@@ -65,19 +65,25 @@ if (sprite_exists(minimap_sprite))
         final_scale, final_scale, 0, c_white, 1);
 }
 
-// Desenha o jogador no centro (CABEÇA ANIMADA)
+// --- DESENHA A CABEÇA NO CENTRO DA SURFACE (CORRIGIDO) ---
 if (p != noone)
 {
-    // Tamanho que a cabeça vai aparecer no minimapa (ajuste)
-    var head_size = 10;  // 8-12 pixels geralmente fica bom
+    var head_size = 25;  // Tamanho que a cabeça vai aparecer no minimapa
     
-    // Desenha a cabeça no centro do minimapa usando o sprite spr_ggh_head
+    // Calcula escala baseada no tamanho original do sprite
+    var sprite_w = sprite_get_width(spr_ggh_head);
+    var sprite_h = sprite_get_height(spr_ggh_head);
+    var scale = head_size / sprite_w;  // Escala proporcional
+    
+    // Desenha a cabeça no CENTRO DA SURFACE
     draw_sprite_ext(spr_ggh_head, p.image_index,
-                    mini_x + cx,  // Centro X do minimapa
-                    mini_y + cy,  // Centro Y do minimapa
-                    head_size / 16,  // Escala X (32 é o tamanho original)
-                    head_size / 16,  // Escala Y
-                    0, c_white, 1);
+                    cx,  // 128 (centro da surface)
+                    cy,  // 128 (centro da surface)
+                    scale, scale, 0, c_white, 1);
+    
+    // Opcional: desenha um ponto no centro para debug
+    // draw_set_color(c_red);
+    // draw_circle(cx, cy, 3, false);
 }
 
 // Aplica a máscara circular
@@ -87,13 +93,13 @@ gpu_set_blendmode(bm_normal);
 
 surface_reset_target();
 
-// Desenha o minimapa na tela
+// --- DESENHA A SURFACE NA TELA ---
 draw_surface(mini_surface, mini_x, mini_y);
 
 // Desenha a borda circular
 draw_set_color(c_white);
 draw_circle(mini_x + cx, mini_y + cy, cx, true);
 
-// Desenha a borda por cima (com blend mode para transparência)
+// Desenha a borda por cima
 gpu_set_blendmode(bm_normal);
 draw_sprite(spr_minimapa_borda, 0, mini_x, mini_y);
