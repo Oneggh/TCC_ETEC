@@ -85,3 +85,40 @@ cooldown_especial_max = 300; // 5s
 squash_timer = 0;
 squash_timer_max = 8;
 timer_rastro = 0;
+
+// --- CARREGAMENTO DE SAVE (se veio da tela de título via "Saves") ---
+if (variable_global_exists("save_pendente") && !is_undefined(global.save_pendente)) {
+    var _d = global.save_pendente;
+
+    x = _d.x;
+    y = _d.y;
+    VidaMax = _d.vida_max;
+    Vida = clamp(_d.vida, 0, VidaMax);
+    Stamina_maxima = _d.stamina_max;
+    Stamina = clamp(_d.stamina, 0, Stamina_maxima);
+
+    switch (_d.modo) {
+        case "combate":
+            modo_atual = "combate";
+            modo_index = 1;
+            sprite_index = spr_combate;
+            break;
+        case "mochila":
+            modo_atual = "mochila";
+            modo_index = 2;
+            sprite_index = spr_mochila;
+            break;
+        default:
+            modo_atual = "normal";
+            modo_index = 0;
+            sprite_index = spr_normal;
+            break;
+    }
+
+    global.save_pendente = undefined;
+}
+
+// --- CELULAR (menu in-game, tecla P) ---
+if (!instance_exists(obj_celular)) {
+    instance_create_depth(0, 0, 0, obj_celular);
+}

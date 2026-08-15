@@ -1,5 +1,14 @@
 /// @description Lógica do jogador
 
+// --- PAUSA ENQUANTO O CELULAR ESTÁ ABERTO ---
+if (variable_global_exists("celular_aberto") && global.celular_aberto) exit;
+
+// --- SALVAMENTO RÁPIDO (F5) — atalho, além do app "Menu > Salvar" no celular ---
+if (keyboard_check_pressed(vk_f5)) {
+    scr_save_write(1);
+    show_debug_message("Jogo salvo (slot 1)");
+}
+
 // Timer de invulnerabilidade após dano
 if(dano_recebido) {
     dano_timer--;
