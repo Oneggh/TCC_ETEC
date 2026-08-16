@@ -1,8 +1,17 @@
 
-// SPRITES
-spr_normal = sprite_index;  // Pega o sprite atual (personagem normal)
-spr_combate = spr_ggh_attack;  // Sprite de combate
-spr_mochila = spr_ggh_mochila;  // Sprite com mochila
+// SPRITES (arte pixel gerada no PixelLab, 128x128, 4 dir x 4 frames — normal e combate compartilham a mesma arte agora)
+spr_normal = sprite_index;  // Pega o sprite atual (spr_player_parada, definido no editor)
+spr_parada = spr_normal;
+spr_andando = spr_player_andando;
+spr_ataque = spr_player_ataque;  // pose de ataque parado (reação sutil — o golpe sai do notebook, ele só reage)
+spr_ataque_andando = spr_player_ataque_andando;  // pose de ataque andando (atira com o notebook em movimento)
+spr_combate = spr_parada;  // mantido por compatibilidade (troca de modo, carregamento de save)
+spr_mochila = spr_ggh_mochila;  // Sprite com mochila (não alterado nesta atualização)
+
+// --- ANIMAÇÃO DE ATAQUE (M1/M2 em combate — 8 frames por direção) ---
+timer_ataque_anim = 0;
+tempo_ataque_anim_max = 20; // ~0,33s
+frames_ataque = 17; // v3 custom gera 16 frames de ação + 1 frame de referência (pose inicial) = 17
 
 // MODOS
 modo_atual = "normal";
@@ -16,9 +25,9 @@ frames_por_direcao = 3;
 pode_andar = true;
 gpu_set_texfilter(false);
 
-// TAMANHO DO PERSONAGEM (a sprite é 32x32; isso deixa ele maior na tela, mais perto do
-// tamanho dos inimigos, que já são exibidos em 2.5x). Só mexer neste número pra ajustar.
-escala_personagem = 1.5;
+// TAMANHO DO PERSONAGEM (sprite agora é 128x128, 4x mais detalhado que antes). Só mexer neste
+// número pra ajustar.
+escala_personagem = 0.5625;
 image_xscale = escala_personagem;
 image_yscale = escala_personagem;
 
@@ -53,6 +62,12 @@ dash_invulneravel = false;
 dano_recebido = false;
 dano_timer = 0;
 dano_duracao = 20;
+
+// STATUS NEGATIVOS (aplicados por inimigos — ex: especial da Vāelith paralisa e depois desnorteia)
+paralisado = false;
+paralisado_timer = 0;
+desnorteado = false;
+desnorteado_timer = 0;
 
 // KNOCKBACK
 knockback_ativo = false;

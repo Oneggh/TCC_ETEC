@@ -59,7 +59,14 @@ if(timer_busca <= 0 || !instance_exists(alvo)) {
 
     var dist_min = 999999;
     var proximo = noone;
-    with(obj_inimigo) {
+    with(obj_vaelith) {
+        var d = distance_to_object(other);
+        if(d < dist_min) {
+            dist_min = d;
+            proximo = id;
+        }
+    }
+    with(obj_diabrete) {
         var d = distance_to_object(other);
         if(d < dist_min) {
             dist_min = d;

@@ -36,6 +36,10 @@ alvo = noone;
 // Quem disparou o raio (obj_player_1 ou obj_clone) — o raio acompanha essa instância
 origem = noone;
 
+// Deslocamento do ponto de origem em relação a quem disparou (ex: altura do notebook no peito)
+offset_x = 0;
+offset_y = 0;
+
 // Efeito visual: o raio não é desenhado como linha — é uma nuvem de mini triângulos e
 // quadrados RGB ao longo do trajeto, cada um com cor própria e independente (ver Draw_0)
 segmentos = 20;

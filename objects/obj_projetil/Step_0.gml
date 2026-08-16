@@ -3,8 +3,8 @@
 // Acompanha a posição de quem disparou (jogador ou clone);
 // a direção NÃO muda depois de disparada — o raio vai reto, sem perseguir o alvo
 if(origem != noone && instance_exists(origem)) {
-    x = origem.x;
-    y = origem.y;
+    x = origem.x + offset_x;
+    y = origem.y + offset_y;
 } else {
     instance_destroy();
     exit;
@@ -71,7 +71,7 @@ if(dano_continuo) {
     if(timer_dano >= intervalo_dano) {
         timer_dano = 0;
 
-        with(obj_inimigo) {
+        with(obj_vaelith) {
             for(var i = 0; i < other.segmentos; i++) {
                 if(point_distance(x, y, other.pontos[i].x, other.pontos[i].y) < 30) {
                     vida = max(vida - other.dano_por_frame, 0);
@@ -112,12 +112,44 @@ if(dano_continuo) {
                 }
             }
         }
+        with(obj_diabrete) {
+            for(var i = 0; i < other.segmentos; i++) {
+                if(point_distance(x, y, other.pontos[i].x, other.pontos[i].y) < 30) {
+                    vida = max(vida - other.dano_por_frame, 0);
+
+                    invulneravel = true;
+                    invulneravel_timer = 5;
+
+                    piscadas_restantes = 6;
+                    timer_efeito_acerto = 9;
+                    image_blend = c_lime;
+
+                    instance_create_depth(other.pontos[i].x, other.pontos[i].y, 0, obj_efeito_acerto);
+
+                    other.timer_knockback += other.intervalo_dano;
+                    if(other.timer_knockback >= other.intervalo_knockback) {
+                        other.timer_knockback = 0;
+
+                        var novo_x = x + lengthdir_x(other.forca_empurrao, other.direcao);
+                        var novo_y = y + lengthdir_y(other.forca_empurrao, other.direcao);
+                        if (!place_meeting(novo_x, novo_y, obj_bloqueio)) {
+                            x = novo_x;
+                            y = novo_y;
+                        }
+
+                        instance_create_depth(x, y, 0, obj_explosao_glitch);
+                    }
+
+                    break;
+                }
+            }
+        }
     }
 } else if(!hit_unico_aplicado) {
     // Variante "raio único": aplica dano uma única vez, assim que o feixe surge
     hit_unico_aplicado = true;
 
-    with(obj_inimigo) {
+    with(obj_vaelith) {
         for(var i = 0; i < other.segmentos; i++) {
             if(point_distance(x, y, other.pontos[i].x, other.pontos[i].y) < 30) {
                 vida = max(vida - other.dano_por_frame * 5, 0);
@@ -133,6 +165,29 @@ if(dano_continuo) {
                     efeito_lentidao = true;
                     timer_lentidao = 180;
                 }
+
+                x += random(10) - 5;
+                y += random(10) - 5;
+
+                repeat(6) {
+                    instance_create_depth(other.pontos[i].x, other.pontos[i].y, 0, obj_efeito_acerto);
+                }
+
+                break;
+            }
+        }
+    }
+    with(obj_diabrete) {
+        for(var i = 0; i < other.segmentos; i++) {
+            if(point_distance(x, y, other.pontos[i].x, other.pontos[i].y) < 30) {
+                vida = max(vida - other.dano_por_frame * 5, 0);
+
+                invulneravel = true;
+                invulneravel_timer = 5;
+
+                piscadas_restantes = 10;
+                timer_efeito_acerto = 9;
+                image_blend = c_lime;
 
                 x += random(10) - 5;
                 y += random(10) - 5;

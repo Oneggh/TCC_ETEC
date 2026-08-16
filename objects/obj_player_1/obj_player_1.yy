@@ -32,8 +32,8 @@
   "resourceVersion":"2.0",
   "solid":true,
   "spriteId":{
-    "name":"spr_ggh",
-    "path":"sprites/spr_ggh/spr_ggh.yy",
+    "name":"spr_player_parada",
+    "path":"sprites/spr_player_parada/spr_player_parada.yy",
   },
   "spriteMaskId":null,
   "visible":true,
