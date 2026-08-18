@@ -13,6 +13,25 @@ cristal_escala_alvo = (estado == "cristal") ? 1 : 0.7;
 cristal_escala += (cristal_escala_alvo - cristal_escala) * 0.08;
 cristal_bob_y = sin(current_time * 0.0016) * 10;
 
+// Balanço suave (o sprite é 2D, então em vez de girar 360 ele "respira" de leve)
+cristal_rotacao = sin(current_time * 0.0009) * 7;
+
+// Brilho de hover: sobe suave quando o mouse passa por cima, e a gema "olha" pro cursor
+var _sobre_cristal = (estado == "cristal")
+    && (point_distance(_mx, _my, _l.cristal_x, _l.cristal_y + cristal_bob_y) <= cristal_raio * 1.3);
+cristal_hover_glow += ((_sobre_cristal ? 1 : 0) - cristal_hover_glow) * 0.12;
+
+var _tilt_alvo_x = _sobre_cristal ? clamp((_mx - _l.cristal_x) / cristal_raio, -1, 1) * 8 : 0;
+var _tilt_alvo_y = _sobre_cristal ? clamp((_my - (_l.cristal_y + cristal_bob_y)) / cristal_raio, -1, 1) * 8 : 0;
+cristal_tilt_x += (_tilt_alvo_x - cristal_tilt_x) * 0.15;
+cristal_tilt_y += (_tilt_alvo_y - cristal_tilt_y) * 0.15;
+
+// Anéis de energia do clique (decaem e somem)
+for (var i = array_length(cliques_efeito) - 1; i >= 0; i--) {
+    cliques_efeito[i].vida++;
+    if (cliques_efeito[i].vida >= cliques_efeito[i].vida_max) array_delete(cliques_efeito, i, 1);
+}
+
 // ================= PARTÍCULAS (sparkles ao redor do cristal) =================
 particula_timer--;
 if (particula_timer <= 0 && cristal_escala > 0.4) {
@@ -66,10 +85,24 @@ opcoes_voltar_hover = false;
 opcoes_fullscreen_hover = false;
 
 if (estado == "cristal") {
-    var _sobre = (point_distance(_mx, _my, _l.cristal_x, _l.cristal_y + cristal_bob_y) <= cristal_raio);
-    if (_pode_interagir && _sobre && _clicou) {
+    if (_pode_interagir && _sobre_cristal && _clicou) {
         estado = "menu";
         menu_abertura = 0;
+
+        // Anel de energia + estilhaços de luz ao "despertar" o cristal
+        var _cx_click = _l.cristal_x;
+        var _cy_click = _l.cristal_y + cristal_bob_y;
+        array_push(cliques_efeito, { x: _cx_click, y: _cy_click, vida: 0, vida_max: 36 });
+        repeat(18) {
+            var _ang_est = random(360);
+            array_push(particulas, {
+                x: _cx_click, y: _cy_click,
+                vx: lengthdir_x(random_range(1.5, 4), _ang_est),
+                vy: lengthdir_y(random_range(1.5, 4), _ang_est),
+                vida: 0, vida_max: random_range(30, 55),
+                tam: random_range(1.5, 3.5),
+            });
+        }
     }
 } else if (estado == "menu") {
     menu_abertura = min(1, menu_abertura + 0.08);

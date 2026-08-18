@@ -19,6 +19,7 @@ image_yscale = escala_personagem;
 // === VIDA ===
 vida_maxima = 250;
 vida = vida_maxima;
+vida_trail = vida_maxima; // "rastro" de dano na barra de chefe — some devagar, atrás da vida atual
 invulneravel = false;
 invulneravel_timer = 0;
 invulneravel_duracao = 30;
@@ -90,3 +91,16 @@ dano_basico = 12;
 timer_ataque_anim = 0;
 tempo_ataque_anim_max = 20; // ~0,33s
 frames_ataque = 17; // v3 custom gera 16 frames de ação + 1 frame de referência = 17
+
+// === INTRODUÇÃO: jogador aperta E perto dela, ela fala e uma contagem regressiva na tela dá início à luta ===
+// (só acontece uma vez — depois disso ela reage normalmente por avistamento, como sempre)
+introducao_feita = false;
+em_introducao = false;
+fase_introducao = ""; // "fala" ou "contagem"
+alcance_interacao = 80; // distância máxima do jogador pra apertar E e ela falar
+texto_fala = "Ora, ora... um intruso. Vamos ver do que você é capaz.";
+timer_fala = 0;
+fala_duracao = 150; // ~2,5s de balão de fala antes da contagem começar
+contagem_valor = 10;
+timer_contagem = 0;
+contagem_intervalo = 30; // ~0,5s por número (10 -> 1 = 5s)

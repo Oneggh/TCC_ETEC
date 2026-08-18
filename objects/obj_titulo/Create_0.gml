@@ -7,10 +7,31 @@ cristal_raio = 68;
 cristal_escala = 0;      // nasce crescendo
 cristal_escala_alvo = 1;
 cristal_bob_y = 0;
+cristal_rotacao = 0;     // balança de leve sozinho (não gira 360, o sprite é 2D), dá a sensação de "vivo"
+cristal_hover_glow = 0;  // 0..1, sobe suave quando o mouse passa por cima (interatividade)
+cristal_tilt_x = 0;      // segue o cursor de leve, como se fosse uma gema de verdade
+cristal_tilt_y = 0;
+
+// --- Anéis de energia ao "despertar" o cristal (clique) ---
+cliques_efeito = [];
 
 // --- Partículas manuais (espaço de GUI) ---
 particulas = [];
 particula_timer = 0;
+
+// --- Estrelas de fundo (parallax bem sutil, dá profundidade ao céu) ---
+estrelas = [];
+var _gw0 = display_get_gui_width();
+var _gh0 = display_get_gui_height();
+for (var i = 0; i < 70; i++) {
+    array_push(estrelas, {
+        x: random(_gw0),
+        y: random(_gh0 * 0.6),
+        tam: random_range(0.6, 1.8),
+        fase: random(1000),
+        vel: random_range(0.15, 0.5),
+    });
+}
 
 // --- Fade de entrada / transição de sala ---
 fade_alpha = 1;

@@ -39,10 +39,70 @@ if(invulneravel) {
     if(invulneravel_timer <= 0) invulneravel = false;
 }
 
+// --- RASTRO DE DANO DA BARRA DE VIDA (chefe): o amarelo persegue o vermelho devagar ao levar dano ---
+if(vida_trail > vida) {
+    vida_trail = lerp(vida_trail, vida, 0.04);
+    if(vida_trail - vida < 0.5) vida_trail = vida;
+} else {
+    vida_trail = vida;
+}
+
 // --- COOLDOWNS DAS 3 HABILIDADES ---
 if(cooldown_habilidade > 0) cooldown_habilidade--;
 if(cooldown_especial > 0) cooldown_especial--;
 if(cooldown_basico > 0) cooldown_basico--;
+
+// --- INTRODUÇÃO: jogador aperta E perto dela pra puxar assunto (só na primeira vez) ---
+if(!introducao_feita && !em_introducao && instance_exists(obj_player_1)
+   && point_distance(x, y, obj_player_1.x, obj_player_1.y) <= alcance_interacao
+   && keyboard_check_pressed(ord("E"))) {
+    em_introducao = true;
+    fase_introducao = "fala";
+    timer_fala = fala_duracao;
+    direcao_atual = (obj_player_1.x < x) ? 1 : 2; // vira de frente pro jogador
+}
+
+if(em_introducao) {
+    // Parada, de frente pro jogador, enquanto fala e conta — sem se mover nem atacar
+    sprite_index = spr_vaelith_parada;
+    image_speed = 0;
+    image_index = direcao_atual * frames_ataque;
+
+    if(fase_introducao == "fala") {
+        timer_fala--;
+        if(timer_fala <= 0) {
+            fase_introducao = "contagem";
+            contagem_valor = 10;
+            timer_contagem = contagem_intervalo;
+        }
+    } else if(fase_introducao == "contagem") {
+        timer_contagem--;
+        if(timer_contagem <= 0) {
+            contagem_valor--;
+            timer_contagem = contagem_intervalo;
+
+            if(contagem_valor <= 0) {
+                // Contagem zerou: libera a IA normal e a luta começa de verdade
+                em_introducao = false;
+                introducao_feita = true;
+                estado = "alerta";
+                timer_reacao = timer_reacao_max;
+            }
+        }
+    }
+
+    exit; // trava toda a IA (patrulha/perseguir/ataque) enquanto a intro estiver rolando
+}
+
+// --- ANTES DA INTRODUÇÃO: fica parada em idle esperando o jogador chegar e apertar E ---
+// (sem isso, a IA de patrulha/perseguir dispararia assim que o jogador entrasse no alcance de
+// visão, bem antes dele chegar perto o bastante pra interagir — ela viria atacar sem se apresentar)
+if(!introducao_feita) {
+    sprite_index = spr_vaelith_parada;
+    image_speed = 0;
+    image_index = direcao_atual * frames_ataque + 1 + (floor(current_time / 150) % 16);
+    exit;
+}
 
 // --- ESCOLHE O ALVO MAIS PRÓXIMO (jogador ou clone) ---
 alvo_atual = noone;

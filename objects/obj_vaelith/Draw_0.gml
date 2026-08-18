@@ -2,6 +2,33 @@
 
 draw_self();
 
+// --- BALÃO DE FALA (introdução, antes da contagem regressiva) ---
+if(em_introducao && fase_introducao == "fala") {
+    var largura_balao = 240;
+    var altura_balao = 64;
+    var bx = x;
+    var by = y - sprite_height/2 * escala_personagem - 76;
+
+    draw_set_color(c_white);
+    draw_roundrect_ext(bx - largura_balao/2, by - altura_balao/2, bx + largura_balao/2, by + altura_balao/2, 16, 16, false);
+    draw_set_color(c_black);
+    draw_roundrect_ext(bx - largura_balao/2, by - altura_balao/2, bx + largura_balao/2, by + altura_balao/2, 16, 16, true);
+
+    // "Rabinho" do balão apontando pra ela
+    draw_set_color(c_white);
+    draw_triangle(bx - 10, by + altura_balao/2 - 1, bx + 10, by + altura_balao/2 - 1, bx, by + altura_balao/2 + 16, false);
+    draw_set_color(c_black);
+    draw_line(bx - 10, by + altura_balao/2, bx, by + altura_balao/2 + 16);
+    draw_line(bx + 10, by + altura_balao/2, bx, by + altura_balao/2 + 16);
+
+    draw_set_halign(fa_center);
+    draw_set_valign(fa_middle);
+    draw_set_color(c_black);
+    draw_text_ext(bx, by, texto_fala, 16, largura_balao - 24);
+    draw_set_halign(fa_left);
+    draw_set_valign(fa_top);
+}
+
 // Aviso visual do Especial carregando (telegraph), pra dar tempo do jogador reagir
 if(especial_em_preparo) {
     draw_set_halign(fa_center);
@@ -12,7 +39,8 @@ if(especial_em_preparo) {
 
 var jogador_perto = instance_exists(obj_player_1) && point_distance(x, y, obj_player_1.x, obj_player_1.y) <= alcance_barra_vida;
 
-if(vida < vida_maxima || jogador_perto) {
+// Barrinha flutuante só antes da luta "oficial" começar (ela ainda não apresentou a barra de chefe no topo)
+if((vida < vida_maxima || jogador_perto) && !introducao_feita) {
     var largura_barra = 70;
     var altura_barra = 7;
     var pos_x_barra = x - largura_barra/2;
